@@ -46,7 +46,7 @@ function getTotalSupply(){
 mintNFT("NFT #1", "First NFT in the collection", "Ankur", 100);
 mintNFT("NFT #2", "Second NFT in the collection", "Mandhar", 200);
 mintNFT("NFT #3", "Third NFT in the collection", "Isha", 300);
-mintNFT("NFT #3", "Fourth NFT in the collection", "Sakshi", 400);
+mintNFT("NFT #4", "Fourth NFT in the collection", "Sakshi", 400);
 
 listNFTs();
 console.log("Total NFTs minted: " + getTotalSupply());
