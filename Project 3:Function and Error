@@ -1,0 +1,49 @@
+//SPDX-License-Identifier: MIT
+pragma solidity 0.8.7;
+
+contract Banking{
+    mapping(address => uint)public balances;
+    address public owner;
+
+    constructor() payable{
+        owner=msg.sender;
+    }
+
+    //Function to deposit
+    function deposit()public payable{
+        require(msg.value>0,"Deposit amount must be grater than 0");
+        balances[msg.sender]+=msg.value;
+ 
+    }
+    //Function to withdraw Ether from the bank
+    function withdraw (uint amount) public {
+        require(amount<=balances[msg.sender],"Insufficient Balance");
+        balances[msg.sender]-=amount;
+        payable(msg.sender).transfer(amount);
+
+    }
+    //Function to check the balance of the sender
+    function checkBalance()public view returns(uint){
+        return balances[msg.sender];
+    }
+    //Function to reset a user's balance
+    function resetBalance(address user)public{
+        require(msg.sender==owner,"Only owner can reset balance");
+        assert(balances[user]>0);
+        balances[user]=0;
+    }
+    //Function to close the bank
+    function closeBank()public{
+        require(msg.sender==owner,"Only owner can close the account");
+        if(address(this).balance>0){
+            revert("Bank still has funds.Withdraw all funds before closing");
+        }
+        selfdestruct(payable(owner));
+
+    }
+    // Fallback function to accept Ether
+    fallback() external payable {}
+
+    // Receive function to accept Ether
+    receive() external payable {}
+}
